@@ -19,18 +19,6 @@ public class PlayerController : MonoBehaviour
     Vector3 movementDir;
 
 
-    void Update()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-
-        movementDir = new Vector3(0, horizontalInput, 0);
-
-        // PlayerMovement();
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            Shoot();
-    }
-
     private void FixedUpdate()
     {
         PlayerMovement();
@@ -38,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     public void Shoot()
     {
-        if (_bodyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Empty")) // Allows to shoot when previous animation of shooting is finished.
+        if (_bodyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Empty") &&!isDead) // Allows to shoot when previous animation of shooting is finished.
         {
             GameObject arrow = GetPooledArrow();
             arrow.transform.position = _shootingPlace.transform.position;
@@ -62,10 +50,6 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMovement()
     {
-        if (!isDead)
-        {
-           transform.Rotate(movementDir * Time.fixedDeltaTime * _speedOfRotation);
-        }
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, 5f, 13f), transform.position.y, transform.position.z);
         transform.Translate(Vector3.forward * Time.fixedDeltaTime * _speedOfMoving);
 
