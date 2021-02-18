@@ -14,8 +14,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody[] playerRagDollRigidbodies;
     [SerializeField] Animator _bodyAnimator;
 
+
     bool isDead;
     Vector3 movementDir;
+
 
     void Update()
     {
@@ -34,7 +36,7 @@ public class PlayerController : MonoBehaviour
         PlayerMovement();
     }
 
-    void Shoot()
+    public void Shoot()
     {
         if (_bodyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Empty")) // Allows to shoot when previous animation of shooting is finished.
         {
@@ -61,8 +63,9 @@ public class PlayerController : MonoBehaviour
     void PlayerMovement()
     {
         if (!isDead)
-            transform.Rotate(movementDir * Time.fixedDeltaTime * _speedOfRotation);
-
+        {
+           transform.Rotate(movementDir * Time.fixedDeltaTime * _speedOfRotation);
+        }
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, 5f, 13f), transform.position.y, transform.position.z);
         transform.Translate(Vector3.forward * Time.fixedDeltaTime * _speedOfMoving);
 
@@ -99,6 +102,15 @@ public class PlayerController : MonoBehaviour
 
             PlayerDeath();
         }
+    }
+
+    public static float ClampAngle(float angle, float min, float max)
+    {
+        float start = (min + max) * 0.5f - 180;
+        float floor = Mathf.FloorToInt((angle - start) / 360) * 360;
+        min += floor;
+        max += floor;
+        return Mathf.Clamp(angle, min, max);
     }
 
 }

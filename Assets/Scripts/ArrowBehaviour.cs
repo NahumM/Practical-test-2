@@ -20,10 +20,10 @@ public class ArrowBehaviour : MonoBehaviour
         isLanded = true;
         transform.parent = collision.gameObject.transform;
 
-            var playerControllerScript = collision.gameObject.GetComponentInParent<EnemyBehaviour>();
-            if (playerControllerScript != null)
+            var enemyControllerScript = collision.gameObject.GetComponentInParent<EnemyBehaviour>();
+            if (enemyControllerScript != null)
             {
-                playerControllerScript.ActivateRagDoll();
+                enemyControllerScript.ActivateRagDoll();
             }
             else Debug.Log("There is no EnemyBehavior.");
         StartCoroutine("DeactivateAfterDelay");
